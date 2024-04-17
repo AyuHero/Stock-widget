@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:gupiao"
         mc:Ignorable="d"
-        Title="MainWindow" Height="70" Width="180"  WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown" Icon="/股票.png">
+        Title="MainWindow" Height="74" Width="180"  WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown" Icon="/股票.png">
     <Border Background="White" CornerRadius="15" BorderThickness="1.5" BorderBrush="Black">
         <Border.ContextMenu>
             <ContextMenu>
@@ -15,16 +15,22 @@
         </Border.ContextMenu>
         <Grid>
             <StackPanel >
-                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" Margin="0,11">
-                    <TextBlock Text="002882" Margin="10,0" FontSize="13"  FontWeight="Bold" x:Name="tdm"/>
-                    <TextBlock Text="金龙羽" FontFamily="red" Margin="5,0" FontSize="15"  FontWeight="Bold" x:Name="tname"/>
+                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,0,0">
+                    <TextBlock Text="002882"  FontSize="16"   x:Name="tdm"/>
+                    <TextBlock Text="金龙羽" FontFamily="red" Margin="10,0,0,0" FontSize="18"  FontWeight="Bold" x:Name="tname"/>
                     <TextBlock/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center">
-                    <TextBlock Text="现价："  FontSize="12"  FontWeight="Bold" Margin="10,0,0,0"/>
-                    <TextBlock Text="1000" Foreground="red"  FontSize="12"  FontWeight="Bold" x:Name="txj"/>
-                    <TextBlock Text="涨幅：" FontWeight="Bold"  FontSize="12" Margin="8,0,0,0"/>
-                    <TextBlock Text="1000" Foreground="red" FontSize="12"  FontWeight="Bold" x:Name="tzz"/>
+                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,4,0,0">
+                    <TextBlock Text="现价："  FontSize="13"  FontWeight="Bold" />
+                    <TextBlock Text="1000" Foreground="red"  FontSize="13"  FontWeight="Bold" x:Name="txj"/>
+                    <TextBlock Text="涨幅：" FontWeight="Bold"  FontSize="13" Margin="10,0,0,0"/>
+                    <TextBlock Text="1000" Foreground="red" FontSize="13"  FontWeight="Bold" x:Name="tzz"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,0,0">
+                    <TextBlock Text="成本："   FontSize="10"  FontWeight="Bold"  />
+                    <TextBlock Text="1000" Foreground="red"  FontSize="10"  FontWeight="Bold"  x:Name="tcb"/>
+                    <TextBlock Text="盈亏："    FontSize="10"  FontWeight="Bold" Margin="13,0,0,0"/>
+                    <TextBlock Text="1000" Foreground="red"  FontSize="10"  FontWeight="Bold"  x:Name="tzz1"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

@@ -48,14 +48,14 @@ namespace gupiao
         private async void Timer_Tick(object sender, EventArgs e)
         {
             string dma = File.ReadAllText(@".\配置.txt");
-
+            string[] dd = dma.Split(',');
 
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
                     // 发送 GET 请求并获取响应
-                    HttpResponseMessage response = await client.GetAsync("https://qt.gtimg.cn/q="+dma);
+                    HttpResponseMessage response = await client.GetAsync("https://qt.gtimg.cn/q=" + dd[0]);
 
                     // 确保响应成功
                     response.EnsureSuccessStatusCode();
@@ -84,9 +84,23 @@ namespace gupiao
                     txj.Text = now.ToString();
                     tzz.Text = zz1 + "%";
 
+                    tcb.Text = dd[1];
+
+                    
+
+                    double cd = double.Parse(dd[1]);
+
+                    double cz1 = now - cd;
+
+                    double zz2 = (cz1 / cd) * 100;
+
+                    double zz3 = Math.Round(zz2, 3);
+
+                    tzz1.Text = zz3 + "%";
+
                     SolidColorBrush red = new SolidColorBrush(Colors.Red);
                     SolidColorBrush green = new SolidColorBrush(Colors.Green);
-                    SolidColorBrush grey = new SolidColorBrush(Colors.DarkGray);
+                    SolidColorBrush grey = new SolidColorBrush(Colors.Black);
 
                     if (now < old)
                     {
@@ -103,6 +117,23 @@ namespace gupiao
                         txj.Foreground = grey;
                         tzz.Foreground = grey;
                     }
+
+                    if (now < cd)
+                    {
+                        tcb.Foreground = green;
+                        tzz1.Foreground = green;
+                    }
+                    if (now > cd)
+                    {
+                        tcb.Foreground = red;
+                        tzz1.Foreground = red;
+                    }
+                    if (now == cd)
+                    {
+                        tcb.Foreground = grey;
+                        tzz1.Foreground = grey;
+                    }
+
                 }
                 catch (Exception ex)
                 {
