@@ -44,11 +44,24 @@ namespace gupiao
             timer.Start(); // 启动定时器
         }
 
+        string[] dd = { };
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
-            string dma = File.ReadAllText(@".\配置.txt");
-            string[] dd = dma.Split(',');
+            try
+            {
+                string dma = File.ReadAllText(@".\配置.txt");
+                dd = dma.Split(',');
+            }
+            catch
+            {
+                using (StreamWriter writer = File.CreateText(@".\配置.txt"))
+                {
+                    writer.WriteLine("sz002882,10");
+                }
+                string dma = File.ReadAllText(@".\配置.txt");
+                dd = dma.Split(',');
+            }
 
             using (HttpClient client = new HttpClient())
             {
