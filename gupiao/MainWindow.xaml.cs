@@ -16,6 +16,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace gupiao
 {
@@ -28,13 +30,74 @@ namespace gupiao
         private DispatcherTimer timer;
 
 
+        // 导入Windows API函数
+        [DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vlc);
+
+        [DllImport("user32.dll")]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        // 常量定义
+        private const int MOD_SHIFT = 0x0004;
+        private const int MOD_ALT = 0x0001;
+        private const int WM_HOTKEY = 0x0312;
+
+
         public MainWindow()
         {
             InitializeComponent();
             InitializeTimer();
             Topmost = true;
+            this.Loaded += MainWindow_Loaded;
         }
 
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // 获取窗口句柄
+            IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+
+            // 注册 Shift + X 热键
+            RegisterHotKey(hWnd, 1, MOD_SHIFT, (int)KeyInterop.VirtualKeyFromKey(Key.C));
+        }
+
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            var hwndSource = PresentationSource.FromVisual(this) as System.Windows.Interop.HwndSource;
+            hwndSource.AddHook(HwndHook);
+        }
+
+        private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == WM_HOTKEY)
+            {
+                // 热键被触发
+                int hotkeyId = wParam.ToInt32();
+                if (hotkeyId == 1)
+                {
+                    // 按下 Shift + X 后显示/隐藏窗体
+                    if (this.Visibility == Visibility.Visible)
+                        this.Visibility = Visibility.Hidden;
+                    else
+                        this.Visibility = Visibility.Visible;
+                }
+                handled = true;
+            }
+            return IntPtr.Zero;
+        }
+
+        // 窗口关闭时注销热键
+        protected override void OnClosed(EventArgs e)
+        {
+            // 获取窗口句柄
+            IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+
+            UnregisterHotKey(hWnd, 1);
+            UnregisterHotKey(hWnd, 2);
+            base.OnClosed(e);
+        }
 
         private void InitializeTimer()
         {
